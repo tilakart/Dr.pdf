@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#5b4bdb">
+<title>Dr.pdf — Free PDF Tools</title>
+<meta name="description" content="Free browser-based PDF tools: merge, split, compress, convert, and edit PDFs.">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#17182b;--muted:#686b80;--primary:#5b4bdb;--line:#e6e7f0;--soft:#eeecff;--green:#13875e}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(120deg,#21195b,#5b4bdb 65%,#8878ff);color:white;padding:20px max(20px,calc((100% - 1120px)/2));}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{font-size:25px;font-weight:850;letter-spacing:-1px}.brand span{background:#fff;color:#5141cb;border-radius:9px;padding:3px 7px;margin-right:7px}.tag{font-size:12px;background:#ffffff24;padding:7px 11px;border-radius:30px}
+.hero{max-width:1120px;margin:0 auto;padding:40px 0 34px}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.08;margin:0 0 14px;letter-spacing:-1.5px}.hero p{color:#e7e4ff;max-width:620px;font-size:16px;line-height:1.65;margin:0}
+main{max-width:1120px;margin:0 auto;padding:28px 20px 50px}.section-title{font-size:23px;margin:0 0 8px}.sub{color:var(--muted);margin:0 0 22px;line-height:1.5}
+.tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.tool{border:1px solid var(--line);border-radius:17px;background:var(--card);padding:20px;text-align:left;cursor:pointer;transition:.18s;min-height:150px;color:var(--ink)}.tool:hover,.tool.active{border-color:var(--primary);box-shadow:0 8px 25px #3930a512;transform:translateY(-2px)}.tool.active{background:#faf9ff}.ico{width:43px;height:43px;border-radius:13px;background:var(--soft);display:grid;place-items:center;font-size:22px;margin-bottom:14px}.tool strong{display:block;font-size:16px;margin-bottom:6px}.tool small{font-size:13px;color:var(--muted);line-height:1.45}
+.workspace{margin-top:25px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(18px,3vw,30px);box-shadow:0 8px 30px #1c174608}.workspace h2{margin:0 0 7px;font-size:23px}.hint{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 20px}.drop{border:2px dashed #c9c6f5;border-radius:15px;padding:26px 16px;text-align:center;background:#fbfaff}.drop .big{font-size:32px}.drop p{color:var(--muted);margin:8px 0 14px;font-size:14px}.file-input{max-width:100%;font-size:13px}.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}.btn{border:0;border-radius:11px;padding:12px 17px;font-weight:700;cursor:pointer;background:var(--primary);color:white;font-size:14px}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:#f0eff8;color:#39364f}.btn.green{background:var(--green)}.field{display:flex;flex-direction:column;gap:7px;font-size:13px;font-weight:650}.field input,.field select,.field textarea{border:1px solid #dcddea;border-radius:10px;padding:11px;background:#fff;color:var(--ink);min-width:130px;font:inherit}.field textarea{width:100%;min-height:75px}.field-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px}.status{margin-top:18px;padding:13px 15px;border-radius:11px;background:#f1f0fa;color:#4e4a70;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.status:empty{display:none}.status.error{background:#fff0ef;color:#a72e28}.status.success{background:#eaf8f1;color:#126344}.note{font-size:12px;color:var(--muted);line-height:1.6;margin-top:15px}.hidden{display:none!important}.privacy{margin-top:22px;padding:17px;border-radius:14px;background:#eaf8f1;color:#175d43;font-size:13px;line-height:1.6}.footer{border-top:1px solid var(--line);padding:25px 20px;text-align:center;color:var(--muted);font-size:13px}.footer b{color:var(--ink)}
+@media(max-width:760px){.tools{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-top:30px}.tool{padding:15px;min-height:145px}}@media(max-width:420px){.tools{grid-template-columns:1fr 1fr;gap:9px}.tool{padding:13px}.tool small{font-size:12px}.tool strong{font-size:14px}.tag{font-size:10px}}
+</style>
+</head>
+<body>
+<header><div class="nav"><div class="brand"><span>Dr.</span>pdf</div><div class="tag">FREE PDF TOOLKIT</div></div>
+<div class="hero"><h1>Your documents.<br>Made simpler.</h1><p>Merge, split, compress, convert and make simple edits to PDF files — right in your browser.</p></div></header>
+<main>
+<h2 class="section-title">Choose a tool</h2><p class="sub">Select a tool below, then add your file. No account required.</p>
+<div class="tools" id="toolGrid">
+<button class="tool active" data-tool="merge"><div class="ico">🧩</div><strong>Merge PDF</strong><small>Combine multiple PDFs into one file.</small></button>
+<button class="tool" data-tool="compress"><div class="ico">🗜️</div><strong>Compress PDF</strong><small>Reduce file size using image-based compression.</small></button>
+<button class="tool" data-tool="split"><div class="ico">✂️</div><strong>Split PDF</strong><small>Extract a page range into a new PDF.</small></button>
+<button class="tool" data-tool="word"><div class="ico">📝</div><strong>Word ↔ PDF</strong><small>Convert simple DOCX files and extract PDF text to DOCX.</small></button>
+<button class="tool" data-tool="image"><div class="ico">🖼️</div><strong>JPG ↔ PDF</strong><small>Turn images into PDF or PDF pages into images.</small></button>
+<button class="tool" data-tool="edit"><div class="ico">✍️</div><strong>Edit PDF</strong><small>Add a text note to a selected page.</small></button>
+</div>
+<section class="workspace" aria-live="polite">
+<h2 id="toolTitle">Merge PDF</h2><p class="hint" id="toolHint">Choose two or more PDF files. They will be combined in the order selected.</p>
+<div class="drop"><div class="big">📄</div><p id="filePrompt">Select PDF files from your device</p><input class="file-input" id="files" type="file" multiple accept="application/pdf"></div>
+<div id="options"></div>
+<div class="controls"><button class="btn" id="run">Merge PDFs</button><button class="btn secondary" id="reset">Clear</button></div>
+<div id="status" class="status"></div>
+<div class="privacy"><b>🔒 Privacy first:</b> files are processed in your browser by this page's JavaScript tools. They are not uploaded to a Dr.pdf server. Conversion quality and support depend on the source file.</div>
+<p class="note">Important: PDF-to-Word and Word-to-PDF conversions here are basic browser conversions, not exact Microsoft Office layout reproduction. Compression rasterizes pages, so searchable text may be lost. Always keep an original copy.</p>
+</section>
+</main>
+<footer class="footer"><b>Dr.pdf</b> · Free browser-based document tools<br>Use only files you have the right to access or edit.</footer>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const titles={
+merge:["Merge PDF","Choose two or more PDF files. They will be combined in the order selected.","application/pdf",true,"Merge PDFs"],
+compress:["Compress PDF","Choose one PDF. Pages are rendered to images and rebuilt into a smaller, non-searchable PDF.","application/pdf",false,"Compress PDF"],
+split:["Split PDF","Choose a PDF and enter the page range you want to extract (for example, 1-3).","application/pdf",false,"Split PDF"],
+word:["Word ↔ PDF","Choose a DOCX to convert to PDF, or a PDF to extract its text into a basic DOCX document.",".pdf,.docx",false,"Convert file"],
+image:["JPG ↔ PDF","Choose images to combine into a PDF, or choose a PDF to export its pages as JPG images.","application/pdf,image/jpeg,image/png",true,"Convert file"],
+edit:["Edit PDF","Add a text note to a page in a PDF. This adds text; it does not change existing text.","application/pdf",false,"Add text and download"]
+};
+let tool="merge";
+const status=(msg,type="")=>{ $("status").textContent=msg; $("status").className="status "+type; };
+function optionsFor(t){
+let s="";
+if(t==="split") s='<div class="field-row"><label class="field">Pages to extract <input id="range" placeholder="e.g. 1-3" value="1-3"></label></div>';
+if(t==="compress") s='<div class="field-row"><label class="field">Image quality <select id="quality"><option value="0.55">Smaller file</option><option value="0.72" selected>Balanced</option><option value="0.88">Higher quality</option></select></label><label class="field">Render scale <select id="scale"><option value="1">1× (smaller)</option><option value="1.35" selected>1.35× (balanced)</option><option value="1.7">1.7× (clearer)</option></select></label></div>';
+if(t==="word") s='<div class="note">DOCX → PDF supports text and basic paragraphs. PDF → DOCX extracts selectable text; original columns, tables and layout may not be preserved.</div>';
+if(t==="image") s='<div class="field-row"><label class="field">PDF page image quality <select id="imgScale"><option value="1">Standard</option><option value="1.5" selected>High</option><option value="2">Very high</option></select></label></div>';
+if(t==="edit") s='<div class="field-row"><label class="field">Page number <input id="pageNum" type="number" min="1" value="1"></label><label class="field" style="flex:1;min-width:200px">Text to add <input id="editText" placeholder="Type your note or signature"></label><label class="field">X position (pt) <input id="posX" type="number" value="50"></label><label class="field">Y position (pt) <input id="posY" type="number" value="80"></label></div><p class="note">Coordinates are measured from the bottom-left of the PDF page in points (72 points = 1 inch).</p>';
+$("options").innerHTML=s;
+}
+function selectTool(t){
+tool=t;document.querySelectorAll(".tool").forEach(b=>b.classList.toggle("active",b.dataset.tool===t));
+const a=titles[t];$("toolTitle").textContent=a[0];$("toolHint").textContent=a[1];$("filePrompt").textContent=t==="merge"?"Select two or more PDF files":t==="word"?"Select a PDF or DOCX file":t==="image"?"Select a PDF or JPG/PNG images":"Select a PDF file";
+$("files").accept=a[2];$("files").multiple=a[3];$("files").value="";$("run").textContent=a[4];status("");optionsFor(t);
+}
+document.querySelectorAll(".tool").forEach(b=>b.addEventListener("click",()=>selectTool(b.dataset.tool)));
+$("reset").addEventListener("click",()=>{$("files").value="";status("");});
+if(window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const read=async f=>new Uint8Array(await f.arrayBuffer());
+function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);}
+const safeName=n=>n.replace(/\.[^.]+$/,"").replace(/[^\w.-]+/g,"_")||"document";
+async function pdfDoc(file){return await PDFLib.PDFDocument.load(await read(file));}
+async function merge(files){if(files.length<2)throw Error("Please select at least two PDF files.");const out=await PDFLib.PDFDocument.create();for(const f of files){const d=await pdfDoc(f),pages=await out.copyPages(d,d.getPageIndices());pages.forEach(p=>out.addPage(p));}download(new Blob([await out.save()],{type:"application/pdf"}),"dr-pdf-merged.pdf");}
+async function split(file){const d=await pdfDoc(file),total=d.getPageCount(),raw=$("range").value.trim();let start,end;const m=raw.match(/^(\d+)\s*-\s*(\d+)$/);if(m){start=+m[1];end=+m[2]}else if(/^\d+$/.test(raw)){start=end=+raw}else throw Error("Enter a page or range like 2 or 1-3.");if(start<1||end<start||end>total)throw Error(`Range must be between 1 and ${total}.`);const out=await PDFLib.PDFDocument.create(),pages=await out.copyPages(d,Array.from({length:end-start+1},(_,i)=>start-1+i));pages.forEach(p=>out.addPage(p));download(new Blob([await out.save()],{type:"application/pdf"}),safeName(file.name)+"-pages-"+start+"-"+end+".pdf");}
+async function renderPdf(file,scale){const pdf=await pdfjsLib.getDocument({data:await read(file)}).promise, canvases=[];for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i),vp=page.getViewport({scale});const c=document.createElement("canvas");c.width=Math.ceil(vp.width);c.height=Math.ceil(vp.height);await page.render({canvasContext:c.getContext("2d"),viewport:vp}).promise;canvases.push({canvas:c,page,viewport:vp});}return canvases;}
+async function compress(file){const q=+$("quality").value,scale=+$("scale").value,items=await renderPdf(file,scale),out=new jspdf.jsPDF({unit:"pt",compress:true});items.forEach((it,i)=>{const w=it.viewport.width/scale,h=it.viewport.height/scale;if(i)out.addPage([w,h]);else out.setPage(1);out.internal.pageSize.setWidth(w);out.internal.pageSize.setHeight(h);out.addImage(it.canvas.toDataURL("image/jpeg",q),"JPEG",0,0,w,h,undefined,"FAST");});download(out.output("blob"),safeName(file.name)+"-compressed.pdf");}
+async function wordTool(file){const ext=file.name.toLowerCase().split(".").pop();if(ext==="docx"){const result=await mammoth.convertToHtml({arrayBuffer:await file.arrayBuffer()});const div=document.createElement("div");div.innerHTML=result.value;const {jsPDF}=window.jspdf,doc=new jsPDF({unit:"pt",format:"a4"});await doc.html(div,{x:40,y:40,width:515,windowWidth:800,autoPaging:"text",margin:[40,40,40,40]});download(doc.output("blob"),safeName(file.name)+".pdf");}else if(ext==="pdf"){const pdf=await pdfjsLib.getDocument({data:await read(file)}).promise,paras=[];for(let i=1;i<=pdf.numPages;i++){const p=await pdf.getPage(i),c=await p.getTextContent();paras.push(c.items.map(x=>x.str).join(" "));}const {Document,Paragraph,Packer}=docx;const d=new Document({sections:[{children:paras.flatMap((p,i)=>[new Paragraph({text:p}),...(i<paras.length-1?[new Paragraph("")]:[])])}]});download(await Packer.toBlob(d),safeName(file.name)+".docx");}else throw Error("Please choose a PDF or DOCX file.");}
+async function imageTool(files){const first=files[0],isPdf=first.type==="application/pdf"||first.name.toLowerCase().endsWith(".pdf");if(isPdf){const items=await renderPdf(first,+$("imgScale").value);items.forEach((it,i)=>download(dataBlob(it.canvas.toDataURL("image/jpeg",.92)),safeName(first.name)+"-page-"+(i+1)+".jpg"));}else{const {jsPDF}=window.jspdf;let out=null;for(const f of files){if(!/^image\/(jpeg|png)$/.test(f.type))continue;const data=await fileData(f),img=await loadImg(data);const w=img.naturalWidth,h=img.naturalHeight;if(!out)out=new jsPDF({orientation:w>h?"landscape":"portrait",unit:"pt",format:[w,h],compress:true});else out.addPage([w,h],w>h?"landscape":"portrait");out.internal.pageSize.setWidth(w);out.internal.pageSize.setHeight(h);out.addImage(data,f.type==="image/png"?"PNG":"JPEG",0,0,w,h,undefined,"FAST");}if(!out)throw Error("Select JPG or PNG images.");download(out.output("blob"),"dr-pdf-images.pdf");}}
+function dataBlob(data){const [head,b64]=data.split(",");const mime=head.match(/data:(.*?);/)[1],bin=atob(b64),a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return new Blob([a],{type:mime});}
+function fileData(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f);});}
+function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src;});}
+async function editPdf(file){const d=await pdfDoc(file),idx=+$("pageNum").value-1;if(idx<0||idx>=d.getPageCount())throw Error("Page number is outside this PDF.");const text=$("editText").value.trim();if(!text)throw Error("Type the text you want to add.");const page=d.getPage(idx),font=await d.embedFont(PDFLib.StandardFonts.Helvetica),x=+$("posX").value||50,y=+$("posY").value||80;page.drawText(text,{x,y,size:14,font,color:PDFLib.rgb(.12,.12,.35),maxWidth:page.getWidth()-x-20});download(new Blob([await d.save()],{type:"application/pdf"}),safeName(file.name)+"-edited.pdf");}
+$("run").addEventListener("click",async()=>{const files=[...$("files").files];status("");if(!files.length){status("Please select a file first.","error");return;}const btn=$("run");btn.disabled=true;btn.textContent="Working…";try{if(!window.PDFLib||!window.pdfjsLib||!window.jspdf)throw Error("A tool library did not load. Check your internet connection and reload the page.");if(tool==="merge")await merge(files);else if(tool==="split")await split(files[0]);else if(tool==="compress")await compress(files[0]);else if(tool==="word")await wordTool(files[0]);else if(tool==="image")await imageTool(files);else if(tool==="edit")await editPdf(files[0]);status("Done — your download should begin automatically.","success");}catch(e){console.error(e);status("Could not complete this task: "+(e.message||"Unknown error"),"error");}finally{btn.disabled=false;btn.textContent=titles[tool][4];}});
+})();
+</script>
+</body></html>
