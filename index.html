@@ -25,7 +25,7 @@ main{max-width:1120px;margin:0 auto;padding:28px 20px 50px}.section-title{font-s
 <div class="hero"><h1>Your documents.<br>Made simpler.</h1><p>Merge, split, compress, convert and make simple edits to PDF files — right in your browser.</p></div></header>
 <main>
 <h2 class="section-title">Your PDF workspace</h2><p class="sub">Simple, private document tools — right in your browser. No account required.</p>
-<label class="search-wrap" for="toolSearch"><span>⌕</span><input id="toolSearch" type="search" placeholder="Search tools — merge, sign, rotate…" autocomplete="off" aria-label="Search PDF tools"><span class="search-count" id="searchCount">12 tools</span></label>
+<label class="search-wrap" for="toolSearch"><span>⌕</span><input id="toolSearch" type="search" placeholder="Search tools — merge, sign, rotate…" autocomplete="off" aria-label="Search PDF tools"><span class="search-count" id="searchCount">13 tools</span></label>
 <div class="tools" id="toolGrid">
 <button class="tool active" data-tool="merge"><div class="ico">🧩</div><strong>Merge PDF</strong><small>Combine multiple PDFs into one file.</small></button>
 <button class="tool" data-tool="compress"><div class="ico">🗜️</div><strong>Compress PDF</strong><small>Reduce file size using image-based compression.</small></button>
@@ -106,7 +106,7 @@ $("files").accept=a[2];$("files").multiple=a[3];$("files").value="";$("run").tex
 document.querySelectorAll(".tool").forEach(b=>b.addEventListener("click",()=>selectTool(b.dataset.tool)));
 const searchInput=$("toolSearch"),searchCount=$("searchCount"),noResults=$("noResults");
 function filterTools(){const q=searchInput.value.trim().toLowerCase();let count=0;document.querySelectorAll(".tool").forEach(card=>{const match=card.textContent.toLowerCase().includes(q);card.hidden=!match;if(match)count++;});searchCount.textContent=count+" tool"+(count===1?"":"s");noResults.style.display=count?"none":"block";}
-searchInput.addEventListener("input",filterTools);
+searchInput.addEventListener("input",filterTools);filterTools();
 function showProgress(label){const w=$("progressWrap");w.classList.remove("done");w.classList.add("visible","running");$("progressText").textContent=label||"Processing your file…";$("progressPercent").textContent="Working";w.querySelector('[role="progressbar"]').setAttribute("aria-valuetext","Processing");}
 function finishProgress(ok){const w=$("progressWrap");w.classList.remove("running");if(ok){w.classList.add("done");$("progressText").textContent="Processing complete";$("progressPercent").textContent="100%";w.querySelector('[role="progressbar"]').setAttribute("aria-valuenow","100");w.querySelector('[role="progressbar"]').setAttribute("aria-valuetext","Complete");}else{w.classList.remove("visible","done");w.querySelector('[role="progressbar"]').removeAttribute("aria-valuenow");w.querySelector('[role="progressbar"]').setAttribute("aria-valuetext","Not completed");}}
 $("reset").addEventListener("click",()=>{$("files").value="";status("");});
