@@ -29,6 +29,15 @@ main{max-width:1120px;margin:0 auto;padding:28px 20px 50px}.section-title{font-s
 .metadata-result{white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0 0;padding:12px;border-radius:12px;background:var(--bg,#f6f7fb);border:1px solid var(--line,#dfe3ec);font-size:.9rem;line-height:1.5;max-height:240px;overflow:auto}
 @media(max-width:560px){.category-tabs{margin-right:-4px}.category-tab{padding:9px 12px;font-size:.86rem}}
 
+
+/* Inline tool workspace */
+.tools{align-items:stretch}.tool{position:relative;padding-right:38px}.tool::after{content:'＋';position:absolute;right:16px;top:18px;color:var(--primary);font-size:20px}.tool.active::after{content:'−'}.tool.active{background:var(--soft);transform:none;border-color:var(--primary);box-shadow:0 8px 24px #087fbe18}.tool:disabled{cursor:wait;opacity:.65}
+.workspace[hidden]{display:none!important}.workspace{grid-column:1/-1;margin:0;position:relative;border:1px solid var(--primary);border-top:4px solid var(--primary);background:var(--card);box-shadow:0 16px 45px #08234b12;animation:panelReveal .2s ease-out;scroll-margin-top:16px}
+.workspace-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}.workspace-label{font-size:10px;letter-spacing:1.5px;font-weight:800;color:var(--primary)}.workspace-close{border:1px solid var(--line);border-radius:50%;width:34px;height:34px;flex-shrink:0;background:var(--bg);color:var(--ink);font-size:23px;cursor:pointer}.workspace-close:focus-visible{outline:3px solid var(--primary);outline-offset:3px}.drop{border-color:var(--primary);background:var(--drop)}.btn{box-shadow:0 4px 12px #087fbe18}.workspace h2{letter-spacing:-.6px}.workspace .privacy{margin-top:20px}.workspace .note{margin-bottom:0}
+@keyframes panelReveal{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.tools{grid-template-columns:1fr;gap:12px}.tool{min-height:0;padding:18px 42px 18px 78px}.tool .ico{position:absolute;left:18px;top:18px;margin:0}.tool strong{font-size:16px}.tool small{font-size:13px}.tool::after{top:22px}.workspace{padding:18px;border-radius:16px}.workspace .controls{gap:10px}.workspace .controls .btn{min-height:46px}.workspace .field-row{gap:12px}.workspace .field{min-width:0!important;max-width:100%;flex:1 1 160px}.workspace .field input,.workspace .field select{min-width:0;width:100%}}
+@media(prefers-reduced-motion:reduce){.workspace{animation:none}.tool{transition:none}}
+
 </style>
 </head>
 <body>
@@ -45,9 +54,9 @@ main{max-width:1120px;margin:0 auto;padding:28px 20px 50px}.section-title{font-s
 <button type="button" class="category-tab" data-category="security">PDF Security</button>
 <button type="button" class="category-tab" data-category="more">More tools</button>
 </nav>
-<label class="search-wrap" for="toolSearch"><span>⌕</span><input id="toolSearch" type="search" placeholder="Search tools — merge, sign, rotate…" autocomplete="off" aria-label="Search PDF tools"><span class="search-count" id="searchCount">13 tools</span></label>
+<label class="search-wrap" for="toolSearch"><span>⌕</span><input id="toolSearch" type="search" placeholder="Search tools — merge, sign, rotate…" autocomplete="off" aria-label="Search PDF tools"><span class="search-count" id="searchCount">15 tools</span></label>
 <div class="tools" id="toolGrid">
-<button class="tool active" data-tool="merge" data-category="organize"><div class="ico">🧩</div><strong>Merge PDF</strong><small>Combine multiple PDFs into one file.</small></button>
+<button class="tool" data-tool="merge" data-category="organize"><div class="ico">🧩</div><strong>Merge PDF</strong><small>Combine multiple PDFs into one file.</small></button>
 <button class="tool" data-tool="compress" data-category="optimize"><div class="ico">🗜️</div><strong>Compress PDF</strong><small>Reduce file size using image-based compression.</small></button>
 <button class="tool" data-tool="split" data-category="organize"><div class="ico">✂️</div><strong>Split PDF</strong><small>Extract a page range into a new PDF.</small></button>
 <button class="tool" data-tool="extract" data-category="organize"><div class="ico">📑</div><strong>Extract Pages</strong><small>Choose individual pages or ranges to make a new PDF.</small></button>
@@ -63,7 +72,8 @@ main{max-width:1120px;margin:0 auto;padding:28px 20px 50px}.section-title{font-s
 <button class="tool" data-tool="protect" data-category="security"><div class="ico">🔐</div><strong>Protect PDF</strong><small>Check password-protection support and learn about secure encryption.</small></button>
 <button class="tool" data-tool="metadata" data-category="more"><div class="ico">🧾</div><strong>PDF Metadata</strong><small>View document details or remove common metadata fields.</small></button>
 </div><div class="no-results" id="noResults">No tools found. Try another search term.</div>
-<section class="workspace" aria-live="polite">
+<section class="workspace" id="toolWorkspace" hidden aria-label="Selected PDF tool">
+<div class="workspace-top"><span class="workspace-label">TR DOCS / WORKSPACE</span><button class="workspace-close" id="closeWorkspace" type="button" aria-label="Close tool">×</button></div>
 <h2 id="toolTitle">Merge PDF</h2><p class="hint" id="toolHint">Choose two or more PDF files. They will be combined in the order selected.</p>
 <div class="drop"><div class="big">📄</div><p id="filePrompt">Select PDF files from your device</p><input class="file-input" id="files" type="file" multiple accept="application/pdf"></div>
 <div id="options"></div>
@@ -124,7 +134,34 @@ if(t==="protect") s='<div class="privacy" style="background:#fff5e8;color:#774b1
 if(t==="metadata") s='<div class="field-row"><label class="field" style="display:flex;align-items:center;gap:10px"><input id="stripMetadata" type="checkbox"> Remove common metadata fields and download a cleaned copy</label></div><p class="note">Inspect the title, author, subject, creator and producer stored in the PDF. This does not remove visible text from the pages.</p><pre class="metadata-result" id="metadataResult" aria-live="polite">Metadata details will appear here after you choose a PDF.</pre>';
 $("options").innerHTML=s;
 }
+const workspace=$("toolWorkspace"),toolCards=[...document.querySelectorAll(".tool")];
+let openCard=null;
+toolCards.forEach(card=>{card.setAttribute("aria-expanded","false");card.setAttribute("aria-controls","toolWorkspace");});
+function placeWorkspace(){
+ if(!openCard||openCard.hidden)return;
+ const visible=toolCards.filter(card=>!card.hidden);
+ const columns=getComputedStyle($("toolGrid")).gridTemplateColumns.split(" ").length;
+ const index=visible.indexOf(openCard);
+ const rowEnd=visible[Math.min(visible.length-1,Math.floor(index/columns)*columns+columns-1)];
+ rowEnd.after(workspace);
+}
+function closeWorkspace(focus=false){
+ workspace.hidden=true;
+ toolCards.forEach(card=>{card.classList.remove("active");card.setAttribute("aria-expanded","false");});
+ if(focus&&openCard)openCard.focus({preventScroll:true});
+ openCard=null;
+}
+$("closeWorkspace").addEventListener("click",()=>closeWorkspace(true));
+workspace.addEventListener("keydown",event=>{if(event.key==="Escape"&&!$("run").disabled)closeWorkspace(true);});
+window.addEventListener("resize",()=>{if(openCard)placeWorkspace();});
 function selectTool(t){
+if($("run").disabled)return;
+const card=toolCards.find(b=>b.dataset.tool===t);
+if(openCard===card&&!workspace.hidden){closeWorkspace();return;}
+openCard=card;workspace.hidden=false;placeWorkspace();
+toolCards.forEach(b=>b.setAttribute("aria-expanded",String(b===card)));
+$("progressWrap").classList.remove("visible","running","done");
+
 tool=t;document.querySelectorAll(".tool").forEach(b=>b.classList.toggle("active",b.dataset.tool===t));
 const a=titles[t];$("toolTitle").textContent=a[0];$("toolHint").textContent=a[1];$("filePrompt").textContent=t==="merge"?"Select two or more PDF files":t==="word"?"Select a PDF or DOCX file":t==="image"?"Select a PDF or JPG/PNG images":"Select a PDF file";
 $("files").accept=a[2];$("files").multiple=a[3];$("files").value="";$("run").textContent=a[4];status("");optionsFor(t);if(t==="sign")setupSignaturePad();
@@ -133,7 +170,7 @@ document.querySelectorAll(".tool").forEach(b=>b.addEventListener("click",()=>sel
 const searchInput=$("toolSearch"),searchCount=$("searchCount"),noResults=$("noResults");
 let activeCategory="all";
 document.querySelectorAll(".category-tab").forEach(tab=>tab.addEventListener("click",()=>{activeCategory=tab.dataset.category;document.querySelectorAll(".category-tab").forEach(x=>x.classList.toggle("active",x===tab));filterTools();}));
-function filterTools(){const q=searchInput.value.trim().toLowerCase();let count=0;document.querySelectorAll(".tool").forEach(card=>{const textMatch=card.textContent.toLowerCase().includes(q);const categoryMatch=activeCategory==="all"||card.dataset.category===activeCategory;const match=textMatch&&categoryMatch;card.hidden=!match;if(match)count++;});searchCount.textContent=count+" tool"+(count===1?"":"s");noResults.style.display=count?"none":"block";}
+function filterTools(){const q=searchInput.value.trim().toLowerCase();let count=0;document.querySelectorAll(".tool").forEach(card=>{const textMatch=card.textContent.toLowerCase().includes(q);const categoryMatch=activeCategory==="all"||card.dataset.category===activeCategory;const match=textMatch&&categoryMatch;card.hidden=!match;if(match)count++;});searchCount.textContent=count+" tool"+(count===1?"":"s");noResults.style.display=count?"none":"block";if(openCard){if(openCard.hidden)closeWorkspace();else placeWorkspace();}}
 searchInput.addEventListener("input",filterTools);filterTools();
 function showProgress(label){const w=$("progressWrap");w.classList.remove("done");w.classList.add("visible","running");$("progressText").textContent=label||"Processing your file…";$("progressPercent").textContent="Working";w.querySelector('[role="progressbar"]').setAttribute("aria-valuetext","Processing");}
 function finishProgress(ok){const w=$("progressWrap");w.classList.remove("running");if(ok){w.classList.add("done");$("progressText").textContent="Processing complete";$("progressPercent").textContent="100%";w.querySelector('[role="progressbar"]').setAttribute("aria-valuenow","100");w.querySelector('[role="progressbar"]').setAttribute("aria-valuetext","Complete");}else{w.classList.remove("visible","done");w.querySelector('[role="progressbar"]').removeAttribute("aria-valuenow");w.querySelector('[role="progressbar"]').setAttribute("aria-valuetext","Not completed");}}
@@ -169,7 +206,7 @@ async function metadataTool(file){
 let signatureHasInk=false;
 function setupSignaturePad(){const c=$("signaturePad");if(!c)return;const ctx=c.getContext("2d");ctx.clearRect(0,0,c.width,c.height);ctx.strokeStyle="#17182b";ctx.lineWidth=5;ctx.lineCap="round";ctx.lineJoin="round";let drawing=false;const point=e=>{const r=c.getBoundingClientRect();return {x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height};};c.onpointerdown=e=>{drawing=true;signatureHasInk=true;c.setPointerCapture(e.pointerId);const p=point(e);ctx.beginPath();ctx.moveTo(p.x,p.y);};c.onpointermove=e=>{if(!drawing)return;const p=point(e);ctx.lineTo(p.x,p.y);ctx.stroke();};const end=()=>{drawing=false;};c.onpointerup=end;c.onpointercancel=end;const clear=$("clearSignature");if(clear)clear.onclick=()=>{ctx.clearRect(0,0,c.width,c.height);signatureHasInk=false;};}
 async function signPdf(file){const c=$("signaturePad");if(!c||!signatureHasInk)throw Error("Draw your signature first.");const d=await pdfDoc(file),idx=(+$ ("signPage").value||1)-1;if(idx<0||idx>=d.getPageCount())throw Error("Page number is outside this PDF.");const page=d.getPages()[idx],png=await d.embedPng(c.toDataURL("image/png")),w=Math.max(40,Math.min(300,+$("signWidth").value||150)),h=w*(png.height/png.width),x=Math.max(0,Math.min(page.getWidth()-w,+$("signX").value||0)),y=Math.max(0,Math.min(page.getHeight()-h,+$("signY").value||0));page.drawImage(png,{x,y,width:w,height:h});download(new Blob([await d.save()],{type:"application/pdf"}),safeName(file.name)+"-signed.pdf");}
-$("run").addEventListener("click",async()=>{const files=[...$("files").files];status("");if(!files.length){status("Please select a file first.","error");return;}const btn=$("run");btn.disabled=true;btn.textContent="Working…";showProgress("Processing your file in this browser…");try{if(!window.PDFLib||!window.pdfjsLib||!window.jspdf)throw Error("A tool library did not load. Check your internet connection and reload the page.");if(tool==="merge")await merge(files);else if(tool==="split")await split(files[0]);else if(tool==="extract")await extractPages(files[0]);else if(tool==="delete")await deletePages(files[0]);else if(tool==="compress")await compress(files[0]);else if(tool==="word")await wordTool(files[0]);else if(tool==="image")await imageTool(files);else if(tool==="edit")await editPdf(files[0]);else if(tool==="rotate")await rotatePdf(files[0]);else if(tool==="reorder")await reorderPdf(files[0]);else if(tool==="watermark")await watermarkPdf(files[0]);else if(tool==="numbers")await numberPdf(files[0]);else if(tool==="sign")await signPdf(files[0]);else if(tool==="protect")throw Error("Secure password encryption is not implemented in this static version. No file was changed.");else if(tool==="metadata")await metadataTool(files[0]);status(tool==="metadata"&&!$("stripMetadata").checked?"Metadata inspected below.":"Done — your download should begin automatically.","success");finishProgress(true);}catch(e){console.error(e);finishProgress(false);status("Could not complete this task: "+(e.message||"Unknown error"),"error");}finally{btn.disabled=false;btn.textContent=titles[tool][4];}});
+$("run").addEventListener("click",async()=>{const files=[...$("files").files];status("");if(!files.length){status("Please select a file first.","error");return;}const btn=$("run");btn.disabled=true;toolCards.forEach(card=>card.disabled=true);$("closeWorkspace").disabled=true;btn.textContent="Working…";showProgress("Processing your file in this browser…");try{if(!window.PDFLib||!window.pdfjsLib||!window.jspdf)throw Error("A tool library did not load. Check your internet connection and reload the page.");if(tool==="merge")await merge(files);else if(tool==="split")await split(files[0]);else if(tool==="extract")await extractPages(files[0]);else if(tool==="delete")await deletePages(files[0]);else if(tool==="compress")await compress(files[0]);else if(tool==="word")await wordTool(files[0]);else if(tool==="image")await imageTool(files);else if(tool==="edit")await editPdf(files[0]);else if(tool==="rotate")await rotatePdf(files[0]);else if(tool==="reorder")await reorderPdf(files[0]);else if(tool==="watermark")await watermarkPdf(files[0]);else if(tool==="numbers")await numberPdf(files[0]);else if(tool==="sign")await signPdf(files[0]);else if(tool==="protect")throw Error("Secure password encryption is not implemented in this static version. No file was changed.");else if(tool==="metadata")await metadataTool(files[0]);status(tool==="metadata"&&!$("stripMetadata").checked?"Metadata inspected below.":"Done — your download should begin automatically.","success");finishProgress(true);}catch(e){console.error(e);finishProgress(false);status("Could not complete this task: "+(e.message||"Unknown error"),"error");}finally{toolCards.forEach(card=>card.disabled=false);$("closeWorkspace").disabled=false;btn.disabled=false;btn.textContent=titles[tool][4];}});
 })();
 </script>
 </body></html>
